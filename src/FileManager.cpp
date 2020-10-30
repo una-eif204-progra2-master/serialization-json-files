@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 #include "FileManager.h"
 
 
@@ -16,6 +17,7 @@ void to_json(json &_json, const Person &_person) {
     json jCourse;
     auto jCourseList = json::array();
 
+    // this method is necessary to serialize tha information from the vector
     for(const Course& course : _person.getCourseList()) {
         jCourse["id"] = course.getId();
         jCourse["name"] = course.getName();
@@ -34,8 +36,20 @@ void to_json(json &_json, const Person &_person) {
  * @param _person the Model
  */
 void from_json(const json &_json, Person &_person) {
+    vector<Course> courseList;
+    json courseData = _json["courses"];
+
+    // this method is necessary to deserialize tha information from the vector
+    for (auto & data : courseData) {
+        Course course;
+        course.setId(data.at("id").get<int>());
+        course.setName(data.at("name").get<std::string>());
+        courseList.push_back(course);
+    }
+
     _person.setId(_json.at("id").get<int>());
     _person.setName(_json.at("name").get<std::string>());
+    _person.setCourseList(courseList);
 }
 
 /**
@@ -68,9 +82,7 @@ vector<Person> FileManager::deserialize(const string& _data) {
  */
 void FileManager::save(const string& jsonData, const string &filename) {
     std::ofstream file (filename, std::ofstream::out);
-
     file << jsonData;
-
     file.close();
 }
 

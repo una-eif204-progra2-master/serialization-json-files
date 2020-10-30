@@ -39,10 +39,18 @@ void Person::setCourseList(const std::vector<Course> &courseList) {
 
 std::string Person::toString() const {
     std::ostringstream output;
-    output << "Person id: " << getId()
-           << ", Name: " << getName();
+    std::ostringstream courseListStr;
 
-    return output.str();
+    for (const Course& course: getCourseList()) {
+        courseListStr << "\nid: " << course.getId()
+        << ", name: " << course.getName();
+    }
+
+    output << "\nPerson id: " << getId()
+           << ", Name: " << getName()
+           << ",\nCourse List: ";
+
+    return output.str() + courseListStr.str();
 }
 
 Person::~Person() = default;

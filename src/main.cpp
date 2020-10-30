@@ -50,8 +50,7 @@ int main() {
 
     string dataFromJSonFile;
     dataFromJSonFile = FileManager::read("Person.json");
-
-    personListFromJson = FileManager::deserialize(R"([{"id":1,"name":"Mike"},{"id":2,"name":"Carlos"}])");
+    personListFromJson = FileManager::deserialize(dataFromJSonFile);
     for (const Person &person: personListFromJson) {
         std::cout << person.toString() << std::endl;
     }
