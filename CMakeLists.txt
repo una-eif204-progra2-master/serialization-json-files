@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(my_project_name)
+project(serialization-json-files)
 
 set(CMAKE_CXX_STANDARD 14)
 
